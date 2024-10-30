@@ -1,8 +1,10 @@
 package shop.dao;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.UUID;
 
+import shop.DTO.PersistenceLogins;
 import shop.dto.PersistentLogin;
 import shop.dto.Product;
 import shop.dto.User;
@@ -39,7 +41,8 @@ public class UserRepository extends JDBConnection {
 	 * @return
 	 */
 	public User getUserById(String id) {
-		
+		User user = null;
+		return user;
 	}
 	
 	
@@ -138,6 +141,28 @@ public class UserRepository extends JDBConnection {
 	        e.printStackTrace();
 	    }
 	    return persistentLogin;
+	}
+	
+	/**
+	 * 토큰 만료 검사
+	 * @param token
+	 * @return
+	 */
+	public boolean isValid(String token) {
+		PersistentLogin persistenceLogins = selectTokenByToken(token);
+		
+		// 토큰 없음
+		if ( persistenceLogins == null ) 
+			return false;
+		// 토큰 만료
+		Date expiryDate = persistenceLogins.getDate();
+		Date today = new Date();
+		if ( today.after(expiryDate) ) {
+			return false;
+		}
+		
+		// 토큰 유효
+		return true;
 	}
 
 
