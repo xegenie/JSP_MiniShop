@@ -37,7 +37,7 @@
 		// 생일 : 연/월/일 분리
 		String birthStr = loginUser.getBirth();
 		String[] temp2 = {"","",""};
-		String[] birth = (birthStr != null && !birthStr.isEmpty() && birthStr.contains("/") ) ? birthStr.split("/") : temp2;
+		String[] birth = (birthStr != null && !birthStr.isEmpty() && birthStr.contains("-") ) ? birthStr.split("-") : temp2;
 		String year = "";
 		String month = "";
 		String day = "";
@@ -100,9 +100,15 @@
 				
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">아이디</label>
+						<span class="form-control col-md-10"><%= loginUser.getId() %></span>
+						<input class="form-control col-md-10" type="hidden" name="id" value="<%= loginUser.getId() %>" />
+					</div>
+					
+					<div class="input-group mb-3 row">
+						<label class="input-group-text col-md-2" id="">비밀번호</label>
 						<input type="text" class="form-control col-md-10" 
-							   name="id" placeholder="아이디" required
-							   value="<%= loginUser.getId() %>">
+							   name="pw" placeholder="비밀번호" required
+							   value="<%= loginUser.getPassword() %>">
 					</div>
 					
 					<div class="input-group mb-3 row">

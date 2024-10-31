@@ -14,8 +14,8 @@ public class Order {
 	private String date;
 	private String userId;
 	private int totalPrice;
-	private String phone;
-	private String orderPw;
+	private String phone;		// 비회원
+	private String orderPw;		// 비회원
 	
 	public Order() {
 		

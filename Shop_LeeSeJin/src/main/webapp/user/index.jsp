@@ -6,9 +6,15 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Shop</title>
+	<title>마이 페이지</title>
 	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
 </head>
+	<%
+		String root = request.getContextPath();
+	
+		User user = (User)session.getAttribute("loginUser");
+		boolean login = (user != null); // 로그인 상태 확인
+	%>
 <body>   
 	
 	<jsp:include page="/layout/header.jsp" />
