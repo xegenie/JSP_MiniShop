@@ -29,6 +29,12 @@
 			      	
 			      <% } %>
 			      <li>
+			        <a href="<%= root %>/user/index.jsp" class="nav-link active" aria-current="page" >
+			          마이 페이지
+			        </a>
+			        <a href="<%= root %>/user/update.jsp" class="nav-link link-body-emphasis">
+			          회원정보 수정
+			        </a>
 			        <a href="<%= root %>/user/order.jsp" class="nav-link link-body-emphasis">
 			          주문내역
 			        </a>

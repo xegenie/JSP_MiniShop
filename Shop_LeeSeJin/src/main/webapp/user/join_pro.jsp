@@ -40,14 +40,29 @@
     user.setPhone(phone);
     user.setAddress(address);
 	
+    
     // 회원 등록
     UserRepository userDAO = new UserRepository();
     
-    int result = 0;
-    result = userDAO.insert(user);
-  
-    if(result != 0) {
-    	response.sendRedirect("login.jsp");
+    int check = 0;
+    int insert = 0;
+    
+    check = userDAO.checkId(id);
+    
+    if ( check > 0 ) {
+%>
+<script>
+  		alert('이미 사용 중인 아이디입니다.');
+ 		location.href="join.jsp?error";
+</script>
+<%
+    }
+    else if ( check == 0 ) {
+		insert = userDAO.insert(user);
+    }
+    
+    if ( insert > 0 ) {
+    	response.sendRedirect("complete.jsp?msg=1");
     }
 %>
     

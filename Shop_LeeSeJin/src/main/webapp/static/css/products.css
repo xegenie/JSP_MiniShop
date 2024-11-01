@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+.btnlist .btn {
+	font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btnlist .btn:nth-of-type(2) {
+    background-color: green;
+    border: 1px solid green;
+}
+
+.btnlist .btn:nth-of-type(2):hover {
+    background-color: rgb(0, 90, 0);
+}
+
+.btnlist .btn:nth-of-type(3) {
+    border: 1px solid rgb(219, 116, 32);
+    background: rgb(219, 116, 32);
+}
+
+.btnlist .btn:nth-of-type(3):hover {
+    background-color: rgb(190, 103, 31);
+}
+
+.card img {
+    max-height: 200px; /* 이미지의 최대 높이 설정 */
+    object-fit: cover; /* 이미지 비율 유지 */
+}
+
+.card p {
+    margin: 0; 						/* 기본 마진 제거 */
+	overflow: hidden; 				/* 넘치는 텍스트 숨기기 */
+    text-overflow: ellipsis; 		/* 잘린 텍스트에 ... 표시 */
+    display: -webkit-box;       	/* Flexbox 사용 */
+    -webkit-box-orient: vertical; 	/* 수직으로 정렬 */
+    -webkit-line-clamp: 2;     		/* 최대 줄 수를 2로 제한 */
+    line-height: 1.5;          		/* 줄 높이 설정 (필요에 따라 조정) */
+    max-height: 3em;           		/* 최대 높이를 3em으로 설정 (2줄에 맞게) */
+}

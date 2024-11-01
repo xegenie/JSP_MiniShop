@@ -111,7 +111,11 @@ public class OrderRepository extends JDBConnection {
 	 */
 	public List<Product> list(String phone, String orderPw) {
 		List<Product> productList = new ArrayList<Product>();
-		String sql = "SELECT * FROM `order` WHERE phone = ? AND order_pw = ?"; // 전화번호와 주문 비밀번호를 기준으로 조회
+		String sql = "SELECT o.order_no, p.name, p.unit_price, io.amount "
+		           + "FROM `order` o "
+		           + "JOIN product_io io ON o.order_no = io.order_no "
+		           + "JOIN product p ON io.product_id = p.product_id "
+		           + "WHERE o.phone = ? AND o.order_pw = ?"; // 주문 테이블에서 전화번호와 주문 비밀번호를 기준으로 조회
 
 		try {
 			psmt = con.prepareStatement(sql);
@@ -122,16 +126,11 @@ public class OrderRepository extends JDBConnection {
 
 			while (rs.next()) { // 결과 집합을 반복
 				Product product = new Product(); // Product 객체 생성
-				product.setProductId(rs.getString("product_id")); // 상품 ID
-				product.setName(rs.getString("name")); // 상품명
-				product.setUnitPrice(rs.getInt("unit_price")); // 단가
-				product.setDescription(rs.getString("description")); // 설명
-				product.setManufacturer(rs.getString("manufacturer")); // 제조업체
-				product.setCategory(rs.getString("category")); // 카테고리
-				product.setUnitsInStock(rs.getInt("units_in_stock")); // 재고 수
-				product.setCondition(rs.getString("condition")); // 상태
-				product.setQuantity(rs.getInt("quantity")); // 장바구니 개수
-
+				product.setProductId(rs.getString("order_no")); // 주문 번호 설정
+	            product.setName(rs.getString("name"));          // 상품명 설정
+	            product.setUnitPrice(rs.getInt("unit_price"));  // 단가 설정
+	            product.setAmount(rs.getInt("amount"));   // 수량 설정
+	            
 				productList.add(product); // 리스트에 추가
 			}
 			rs.close(); // ResultSet 닫기

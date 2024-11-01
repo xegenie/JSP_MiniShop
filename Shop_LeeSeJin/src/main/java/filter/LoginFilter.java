@@ -71,9 +71,8 @@ public class LoginFilter extends HttpFilter implements Filter {
 		// 자동 로그인 & 토큰 ok
 		if ( rememberMe != null && token != null ) {
 			PersistentLogin persistentLogin  = userDAO.selectTokenByToken(token);
-			boolean isValid = userDAO.isValid(token);
 			// 토큰 존재, 유효
-			if ( persistentLogin != null && isValid ) {
+			if ( persistentLogin != null ) {
 				loginId = persistentLogin.getUserId();
 				loginUser = userDAO.getUserById(loginId);
 				// 로그인 처리

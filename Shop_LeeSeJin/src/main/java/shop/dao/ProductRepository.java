@@ -40,7 +40,6 @@ public class ProductRepository extends JDBConnection {
 			System.err.println("상품 목록 조회 중 오류 발생!");
 			e.printStackTrace();
 		}
-
 		return productList; // 상품 리스트 반환
 	}
 	
@@ -52,17 +51,14 @@ public class ProductRepository extends JDBConnection {
 	 */
 	public List<Product> list(String keyword) {
 	    List<Product> productList = new ArrayList<>();
-	    String sql = "SELECT * FROM product WHERE name LIKE ? OR description LIKE ?"; // 상품명 또는 설명에서 키워드 검색
-
-//	    String sql = "SELECT *"
-//	    		+ "FROM product"
-//	    		+ "WHERE name LIKE CONCAT('%', '상품명', '%')"; // 문자열 연결
+	    String sql = "SELECT * "
+	    		+ "FROM product "
+	    		+ "WHERE name LIKE CONCAT('%', ?, '%')"; // 문자열 연결
 	    try {
 	    	psmt = con.prepareStatement(sql);
 	        
 	        // 키워드에 '%'를 추가하여 LIKE 검색 수행
-	        psmt.setString(1, keyword);
-	        psmt.setString(2, keyword);
+	    	psmt.setString(1, keyword);
 
 	        rs = psmt.executeQuery(); // 쿼리 실행
 	        while (rs.next()) {
@@ -84,7 +80,6 @@ public class ProductRepository extends JDBConnection {
 	        System.err.println("상품 목록 검색 중 오류 발생!");
 	        e.printStackTrace();
 	    }
-
 	    return productList; // 검색된 상품 리스트 반환
 	}
 	

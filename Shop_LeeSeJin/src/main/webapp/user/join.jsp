@@ -3,6 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%
+	String root = request.getContextPath();
+%>
 	<meta charset="UTF-8">
 	<title>회원 가입</title>
 	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
@@ -16,7 +19,7 @@
 	
 	<!-- 회원 가입 영역 -->
 	<div class="container shop p-5 mb-5" >
-		<form action="join_pro.jsp" name="joinForm" method="post" >
+		<form action="join_pro.jsp" name="joinForm" method="post" onsubmit="return checkAccount();" >
 		
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">아이디</label>
@@ -144,9 +147,48 @@
 	
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
+	
 </body>
-</html>
 
+<script>
+	function checkAccount() {
+	    const username = document.joinForm.id; // 아이디
+	    const password = document.joinForm.pw; // 비밀번호
+	    const confirmPassword = document.joinForm.pw_confirm; // 비밀번호 확인
+	    const name = document.joinForm.name; // 이름
+	
+	    // 아이디: 영문자 또는 한글로 시작
+	    const usernamePattern = /^[a-zA-Z가-힣]/;
+	    if (!check(usernamePattern, username, "아이디는 영문자 또는 한글로 시작해야 합니다.")) {
+	        return false;
+	    }
+	
+	    // 비밀번호: 영문자, 숫자, 특수문자만 사용하되, 특수문자는 반드시 1개 포함하고 전체 글자수가 6글자 이상
+	    const passwordPattern = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+	    if (!check(passwordPattern, password, "비밀번호는 6글자 이상이어야 하며, 영문자, 숫자, 특수문자를 포함해야 하고, 특수문자는 반드시 1개 포함해야 합니다.")) {
+	        return false;
+	    }
+	
+	    // 비밀번호 확인: 비밀번호와 일치해야 함
+	    if (password.value !== confirmPassword.value) {
+	        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        confirmPassword.select();
+	        confirmPassword.focus();
+	        return false;
+	    }
+	
+	    // 이름: 한글만 입력
+	    const namePattern = /^[가-힣]+$/;
+	    if (!check(namePattern, name, "이름은 한글만 입력해야 합니다.")) {
+	        return false;
+	    }
+	
+	    // 모든 검증을 통과하면 true를 반환
+	    return true;
+	}
+</script>
+
+</html>
 
 
 

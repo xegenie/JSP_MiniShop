@@ -37,6 +37,7 @@ function checkProduct() {
 	return true
 }
 
+
 // 정규표현식 유효성 검사 함수
 function check(regExp, element, msg) {
 	

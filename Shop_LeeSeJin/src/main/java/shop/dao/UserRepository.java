@@ -42,6 +42,33 @@ public class UserRepository extends JDBConnection {
 	
 	
 	/**
+	 * 아이디 중복 체크
+	 * @param id
+	 * @return
+	 */
+	public int checkId(String id) {
+		int result = 0;
+		
+	    // 아이디 중복 체크
+	    String sql = "SELECT COUNT(*) FROM user WHERE id = ?";
+	    try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			rs = psmt.executeQuery();
+	        if (rs.next()) {
+	            result = rs.getInt(1); // 첫 번째 컬럼의 값을 가져옴
+	        }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	    
+	    return result;
+	}
+	
+	
+	/**
 	 * 로그인을 위한 사용자 조회
 	 * @param id
 	 * @param pw
@@ -249,30 +276,6 @@ public class UserRepository extends JDBConnection {
 	    }
 	    return persistentLogin;
 	}
-	
-	/**
-	 * 토큰 만료 검사
-	 * @param token
-	 * @return
-	 */
-	public boolean isValid(String token) {
-		PersistentLogin persistenceLogins = selectTokenByToken(token);
-		
-		// 토큰 없음
-		if ( persistenceLogins == null ) 
-			return false;
-		// 토큰 만료
-		Date expiryDate = persistenceLogins.getDate();
-		Date today = new Date();
-		if ( today.after(expiryDate) ) {
-			return false;
-		}
-		
-		// 토큰 유효
-		return true;
-	}
-
-
 	
 	
 	/**

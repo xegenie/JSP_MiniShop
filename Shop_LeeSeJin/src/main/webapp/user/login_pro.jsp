@@ -38,13 +38,18 @@
 		// 쿠키 생성
 		cookieRememberId.setValue(URLEncoder.encode(rememberId, "UTF-8"));
 		cookieUserId.setValue(URLEncoder.encode(id, "UTF-8"));
+		
+		cookieRememberId.setMaxAge(60 * 60 * 24 * 30); // 초단위
+		cookieUserId.setMaxAge(60 * 60 * 24 * 30); // 초단위
 	}
 	// 아이디 저장 체크 해제 시
-	else {
+	else if ( rememberId == null ) {
 		// 쿠키 삭제 - 쿠키 유효시간 0으로 하고 응답
 		cookieRememberId.setMaxAge(0);
 		cookieUserId.setMaxAge(0);
 	}
+	
+	
 	// 자동 로그인
 	String rememberMe = request.getParameter("remember-me");
 	Cookie cookieRememberMe = new Cookie("rememberMe", "");
@@ -61,11 +66,10 @@
 	if (rememberMe != null && rememberMe.equals("on")) {
 		// 자동 로그인 체크 시
 		// - 토큰 발행
-		PersistentLogin persistentLogin = new PersistentLogin();
+		
 		String token = null;
-		if ( persistentLogin != null ) {
-			token = userDAO.refreshToken(id);
-		}
+		token = userDAO.refreshToken(id);
+		
 		// - 쿠키 생성
 		cookieRememberMe.setValue(URLEncoder.encode(rememberMe, "UTF-8"));
 		cookieToken.setValue(URLEncoder.encode(token, "UTF-8"));

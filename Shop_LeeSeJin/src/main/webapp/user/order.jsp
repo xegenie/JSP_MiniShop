@@ -1,6 +1,7 @@
+<%@page import="shop.dto.Order"%>
+<%@page import="shop.dto.Product"%>
 <%@page import="shop.dao.OrderRepository"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="shop.dto.Product"%>
 <%@page import="java.util.List"%>
 <%@page import="shop.dao.UserRepository"%>
 <%@page import="shop.dto.User"%>
@@ -16,14 +17,29 @@
 <body>   
 	<% 
 
-		// ...
+		// root 경로
+		String root = request.getContextPath();
 	
 	
 		// 주문 내역 목록을 세션에서 가져오기
+		OrderRepository orderDAO = new OrderRepository();
+		UserRepository userDAO = new UserRepository();
+		List<Product> orderList = null;
 		
 		// 회원인 경우
+		boolean logined = session.getAttribute("loginUser") != null;
+		String userId = (String) session.getAttribute("loginId");
+		User user = userDAO.getUserById(userId);
 		
 		
+        // 사용자의 주문 목록을 가져오기
+		if ( logined ) {
+        orderList = orderDAO.list(user.getId());
+		}
+		
+        Order order = new Order();
+        String orderPhone = order.getPhone();
+        
 	%>
 	
 	<jsp:include page="/layout/header.jsp" />
@@ -33,7 +49,7 @@
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
 			    <ul class="nav nav-pills flex-column mb-auto">
 			      <!-- 로그인 시 -->
-			      <% if( login ) { %>
+			      <% if( logined ) { %>
 			      <li class="nav-item">
 			        <a href="<%= root %>/user/index.jsp" class="nav-link link-body-emphasis">
 			          마이 페이지
@@ -60,7 +76,7 @@
 			<div class="px-4 py-3 my-3 text-center">
 				<h1 class="display-5 fw-bold text-body-emphasis">주문 내역</h1>
 				<div class="col-lg-6 mx-auto">
-					<% if( !login ) { %>	
+					<% if( !logined ) { %>	
 						<p class="lead mb-4">비회원 주문하신 경우, 전화번호와 주문 비밀번호를 입력해주세요.</p>
 					<% } %>
 				</div>
@@ -69,7 +85,7 @@
 			<!-- 주문 내역 영역 -->
 			<div class="container shop m-auto mb-5">
 					<form action="<%= root %>/user/order_pro.jsp" method="post">
-					<% if( !login ) { %>
+					<% if( !logined ) { %>
 						<div class="mb-5">
 							<table class="table">
 								<tr>
@@ -91,7 +107,7 @@
 						</div>
 					<% } %>
 					</form>
-				<% if( login || ( orderPhone != null && !orderPhone.isEmpty() ) ) { %>
+				<% if( logined || ( orderPhone != null && !orderPhone.isEmpty() ) ) { %>
 				<!-- 주문 내역 목록 -->
 				<table class="table table-striped table-hover table-bordered text-center align-middle">
 					<thead>
@@ -106,6 +122,7 @@
 					</thead>
 					<tbody>
 						<%
+							int orderCount = orderList.size();
 							int sum = 0;
 							for(int i = 0 ; i < orderCount ; i++) {
 								Product product = orderList.get(i);
@@ -156,48 +173,6 @@
 	
 	<jsp:include page="/layout/script.jsp" />
 	
-	
-
-	<script>
-		
-		let form = document.updateForm
-		
-		// 성별 선택
-		let tempGender = document.getElementById('temp-gender')
-		let radioFemale = document.getElementById('gender-female')
-		let radioMale = document.getElementById('gender-male')
-		// alert(tempGender.value)
-		if( tempGender.value == '남' )		radioMale.checked = true
-		if( tempGender.value == '여' )		radioFemale.checked = true
-		
-		
-		// 생일 월 (select) 선택
-		let tempMonth = document.getElementById('temp-month')
-		let selectMonth = form.month
-		selectMonth.value = tempMonth.value
-		
-		
-		// 메일 도메인 (select) 선택
-		let tempEmail2 = document.getElementById('temp-email2')
-		let selectEmail2 = form.email2
-		selectEmail2.value = tempEmail2.value
-		
-		
-		// 탈퇴 체크
-		function alertDel() {
-
-			let form = document.updateForm
-
-			let check = confirm('정말 탈퇴하시겠습니까?')
-
-			if( check ) {
-				form.action = 'delete.jsp'
-				form.submit()
-			}
-
-		}
-	
-	</script>
 </body>
 </html>
 

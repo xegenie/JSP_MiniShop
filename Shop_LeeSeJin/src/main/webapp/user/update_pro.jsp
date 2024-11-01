@@ -40,11 +40,13 @@
     result = userDAO.update(user);
     
 	if (result > 0) {
-		//         response.sendRedirect("complete.jsp?msg=2");
-		out.println("성공");
+%>
+	<script>
+	  		alert('회원정보 수정 성공!');
+	 		location.href="index.jsp";
+	</script>
+<%
 	} else {
-		out.println(pw);
-		out.println("실패");
-		//         response.sendRedirect("update.jsp");
+        response.sendRedirect("update.jsp");
 	}
 %>

@@ -1,3 +1,4 @@
+<%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
