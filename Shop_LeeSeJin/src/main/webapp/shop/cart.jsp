@@ -43,7 +43,6 @@
 	</div>
 	
 	<!-- 장바구니 영역 -->
-<form action="ship.jsp?cartId=<%= cartId %>" method="post">
 	<div class="container order">
 	<!-- 장바구니 목록 -->
 	<table class="table table-striped table-hover table-bordered text-center align-middle">
@@ -62,6 +61,7 @@
 	boolean userExists = (user != null && !user.toString().isEmpty());
 	List<Product> cartList = userExists ? userCart : cart; // userCart 또는 cart를 선택합니다.
 	int totalPrice = 0; // 총 가격 초기화
+	List<Integer> quantities = new ArrayList<>();
 	
 	if (cartList != null) {
 		for (Product list : cartList) {
@@ -70,7 +70,6 @@
 		        <td><%= list.getName() %></td>            
 		        <td><%= list.getUnitPrice() %></td>            
 		        <td><%= list.getQuantity() %></td>
-		        <input type="hidden" name="quantity" value="<%= list.getQuantity() %>" />        
 		        <td><%= list.getUnitPrice() * list.getQuantity() %></td>
 		        <td>
 	                <button type="button" class="btn btn-primary deletebtn" onclick="deleteFromCart('<%= list.getProductId() %>')">삭제</button>
@@ -78,8 +77,12 @@
 		    </tr>
 <%		
         	totalPrice += list.getUnitPrice() * list.getQuantity(); // 총 가격 계산
+        	quantities.add(list.getQuantity());
     	}
 	}
+	session.setAttribute("totalPrice", totalPrice);
+	System.out.println("Quantities before saving: " + quantities);
+	session.setAttribute("quantities", quantities);
 %>
 	    </tbody>
 	    <tfoot>
@@ -114,7 +117,6 @@
 			<button type="submit" class="btn btn-lg btn-primary" onclick="order()">주문하기</button>
 		</div>
 	</div>
-</form>	
 	
 <footer class="container p-5">
 	<p>copyright Shop</p>
@@ -127,55 +129,57 @@
 
 
 
-
-
 	
-	<script>
+<script>
 	// 장바구니 상품 개수 및 총 가격
-    let cartCount = <%= (cartList != null ? cartList.size() : 0) %>; // 장바구니에 있는 상품 개수
-    let cartSum = <%= totalPrice %>; // 총 가격을 JSP에서 가져옴
+	let cartId = "<%= cartId %>";
+	let cartCount = <%= (cartList != null ? cartList.size() : 0) %>; // 장바구니에 있는 상품 개수
+	let cartSum = <%= totalPrice %>; // 총 가격을 JSP에서 가져옴
 
-    function order() {
-        if (cartCount === 0) {
-            alert('장바구니에 담긴 상품이 없습니다.');
-            return; // 장바구니가 비어있으면 함수 종료
-        }
-
-        // 주문 확인 메시지
-        let msg = '총 ' + cartCount + '개의 상품을 주문합니다. \n총 주문금액 : ' + cartSum;
-        let check = confirm(msg); // 확인 대화 상자 표시
-
-        // 사용자가 확인을 선택한 경우
-        if (check) {
-            // 주문 폼을 제출
-            document.forms[0].submit(); // 첫 번째 form을 제출 (여기서는 주문 폼)
-        }
-    }
-	    
-	    function deleteFromCart(productId) {
-	        // 삭제 확인 메시지 표시
-	        const isConfirmed = confirm("이 상품을 장바구니에서 삭제하시겠습니까?");
-	        
-	        if (isConfirmed) {
-	            // form 데이터를 생성하여 POST 요청 처리
-	            const form = document.createElement("form");
-	            form.method = "post";
-	            form.action = "deleteFromCart.jsp";
-
-	            // productId를 hidden input으로 추가
-	            const input = document.createElement("input");
-	            input.type = "hidden";
-	            input.name = "productId";
-	            input.value = productId;
-	            form.appendChild(input);
-
-	            // form을 body에 추가하고 submit하여 서버로 전송
-	            document.body.appendChild(form);
-	            form.submit();
-	        }
+	function order() {
+	    if (cartCount == 0) {
+	        alert('장바구니에 담긴 상품이 없습니다.');
+	        return; // 장바구니가 비어있으면 함수 종료
 	    }
 
-	</script>
+	    // 주문 확인 메시지
+	    let msg = '총 ' + cartCount + '개의 상품을 주문합니다. \n총 주문금액 : ' + cartSum;
+	    let check = confirm(msg); // 확인 대화 상자 표시
+
+	    // 사용자가 확인을 선택한 경우
+	    if (check) {
+	        // 사용자가 확인을 선택하면 리디렉션
+	        window.location.href = 'ship.jsp?cartId=<%= cartId %>'; // cartId에 해당하는 페이지로 이동
+	    }
+	    // 취소한 경우 아무런 동작을 하지 않음
+	}
+	    
+	
+	// 삭제
+    function deleteFromCart(productId) {
+        // 삭제 확인 메시지 표시
+        const isConfirmed = confirm("이 상품을 장바구니에서 삭제하시겠습니까?");
+        
+        if (isConfirmed) {
+            // form 데이터를 생성하여 POST 요청 처리
+            const form = document.createElement("form");
+            form.method = "post";
+            form.action = "deleteFromCart.jsp";
+
+            // productId를 hidden input으로 추가
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "productId";
+            input.value = productId;
+            form.appendChild(input);
+
+            // form을 body에 추가하고 submit하여 서버로 전송
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+</script>
 
 	
 </body>

@@ -1,3 +1,6 @@
+<%@page import="shop.dto.User"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="shop.dao.ProductIORepository"%>
@@ -21,13 +24,38 @@
 <%
 	String root = request.getContextPath();	
 
+	String cartId = request.getParameter("cartId");
+	List<Product> cart = new ArrayList<Product>();
+	
+	User user = null;
+	String userId = "";
+	
+	if ( cartId.equals("guest") ) {
+		cart = (List<Product>) session.getAttribute("cart");
+	} else {
+		user = (User) session.getAttribute("loginUser");
+		cart = (List<Product>) session.getAttribute("userCart");
+		userId = user.getId();
+	}
+	
+
 	String shipName = request.getParameter("shipName");
-	String date = request.getParameter("date");
-	String country = request.getParameter("country");
 	String zipCode = request.getParameter("zipCode");
+	String country = request.getParameter("country");
 	String address = request.getParameter("address");
+	String date = request.getParameter("date");
+	String orderPw = request.getParameter("orderPw");
 	String phone = request.getParameter("phone");
-	String orderPw = request.getParameter("orderPw"); // 비회원일 경우 입력되는 비밀번호
+	
+	Integer totalPrice = (Integer) session.getAttribute("totalPrice");
+// 	int totalPrice = (totalPriceObj != null) ? totalPriceObj : 0; // 오류방지
+	
+	List<Integer> quantity = (List<Integer>) session.getAttribute("quantities");
+    out.println(quantity);
+    // 오류 방지
+//     if (quantity == null) {
+//     	quantity = new ArrayList<>(); // 빈 리스트로 초기화
+//     }
 	
 	// 필수 값 체크 (예시)
 	if (shipName == null || date == null || country == null || zipCode == null || address == null) {
@@ -44,22 +72,33 @@
 	order.setAddress(address);
 	order.setPhone(phone);
 	order.setOrderPw(orderPw);
+	order.setUserId(userId);
 	
 	OrderRepository orderDAO = new OrderRepository();
 	orderDAO.insert(order);
 	
-    psmt.setString(1, product.getProductId()); // 상품 ID
-    psmt.setObject(2, product.getOrderNo()); // 주문 번호 (nullable)
-    psmt.setInt(3, product.getAmount()); // 입출고량
-    psmt.setString(4, product.getType()); // 입출고 타입
-    psmt.setString(5, product.getUserId()); // 사용자 ID (nullable)
-    
-    ProductRepository productDAO = ProductRepository();
-    Product product = productDAO.list(shipName);
-    product.setProductId(productId)
-    
-	ProductIORepository productioDAO = new ProductIORepository();
-	productioDAO.insert(product);
+	int orderNo = orderDAO.lastOrderNo(); // 방금 저장한 주문 번호 가져오기
+	
+    // 각 상품에 대해 주문 처리
+    for (int i = 0; i < cart.size(); i++) {
+        Product product = cart.get(i); // 장바구니에서 상품 가져오기
+        int quantityValue = (i < quantity.size()) ? quantity.get(i) : 0; // 각 상품의 수량 가져오기, 기본값 0 설정
+
+        // Product 객체에 값 설정
+        product.setProductId(product.getProductId());
+        product.setOrderNo(orderNo);
+        product.setAmount(quantityValue);
+        product.setType("OUT"); // 입출고 타입 설정
+        product.setUserId(user != null ? user.getId() : null); // 비회원일 경우 null 설정
+		
+        product.setUnitsInStock(product.getUnitsInStock() - quantityValue);
+        // 상품 입출고 기록 저장
+        ProductIORepository productioDAO = new ProductIORepository();
+        productioDAO.insert(product);
+        // 재고 감소
+        ProductRepository productDAO = new ProductRepository();
+        productDAO.update(product);
+    }
 %>
 
 </head>
@@ -70,10 +109,6 @@
 	<h1 class="display-5 fw-bold text-body-emphasis">주문 완료</h1>
 	<h2>주문이 정상적으로 완료되었습니다.</h2>
 </div>
-
-<%
-	int orderNo = orderDAO.lastOrderNo();
-%>
 
 <div class="container shop">
 	<div class="d-flex border-bottom py-2" >

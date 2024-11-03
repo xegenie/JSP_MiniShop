@@ -1,4 +1,5 @@
- <%@page import="shop.dto.User"%>
+ <%@page import="java.util.List"%>
+<%@page import="shop.dto.User"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
@@ -17,7 +18,7 @@
 	User user = (User) session.getAttribute("loginUser");
 	String root = request.getContextPath();
 	String cartId = request.getParameter("cartId");
-	String quantity = request.getParameter("quantity");
+	List<Integer> quantity = (List<Integer>) session.getAttribute("quantities");
 // 	if (cartId == null) {
 // 	    out.println("<script>alert('다시 시도해 주세요.'); location.href='products.jsp';</script>");
 // 	}

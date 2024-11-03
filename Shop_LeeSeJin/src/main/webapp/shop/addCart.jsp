@@ -77,7 +77,7 @@
 
     // 이전 페이지가 product.jsp 인 경우
     if (referer != null && referer.contains("product.jsp")) {
-        redirectPage = "product.jsp";
+        redirectPage = "product.jsp?pNo=" + productId;
     } 
     else {
         redirectPage = "products.jsp";
