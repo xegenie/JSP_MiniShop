@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<title>Shop</title>
 	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>   
 	<% 
@@ -106,10 +107,17 @@
 					
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">비밀번호</label>
-						<input type="text" class="form-control col-md-10" 
+						<input type="password" class="form-control col-md-10" 
 							   name="pw" placeholder="비밀번호" required
 							   value="<%= loginUser.getPassword() %>">
 					</div>
+					
+					<div class="input-group mb-3 row">
+					    <label class="input-group-text col-md-2" style="font-size: 15px;" id="">비밀번호 확인</label>
+					    <input type="password" class="form-control col-md-10" 
+					           id="pw_confirm" name="pw_confirm" placeholder="비밀번호 확인" required>
+					</div>
+
 					
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">이름</label>
@@ -274,7 +282,7 @@
 			}
 
 		}
-	
+
 	</script>
 </body>
 </html>

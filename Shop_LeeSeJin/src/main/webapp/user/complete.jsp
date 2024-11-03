@@ -37,7 +37,7 @@
         <div class="px-4 py-5 my-5 text-center d-flex flex-column gap-5 align-items-center">
             <h1 class="display-5 fw-bold text-body-emphasis">회원가입 완료</h1>
             <h2>환영합니다! 성공적으로 회원가입하셨습니다.</h2>
-            <a href="<%= root %>/index.jsp" class="btn btn-primary btn-lg">메인 페이지로 이동</a>
+            <a href="login.jsp" class="btn btn-primary btn-lg">로그인 화면으로 이동</a>
         </div>
     <%
         }
