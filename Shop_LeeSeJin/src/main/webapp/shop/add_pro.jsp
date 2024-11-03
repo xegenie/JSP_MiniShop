@@ -1,3 +1,4 @@
+<%@page import="shop.dao.ProductIORepository"%>
 <%@page import="java.io.File"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
@@ -95,6 +96,11 @@
     product.setUnitsInStock(unitsInStock);
     product.setCondition(condition);
     product.setFile(filePath); // 파일 경로 설정
+    
+    ProductIORepository productIORepository = new ProductIORepository();
+    product.setAmount(unitsInStock);
+    product.setType("IN");
+    productIORepository.insert(product);
 
     ProductRepository productDAO = new ProductRepository();
     int result = productDAO.insert(product);

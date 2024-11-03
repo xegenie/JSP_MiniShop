@@ -51,17 +51,20 @@
 // 	int totalPrice = (totalPriceObj != null) ? totalPriceObj : 0; // 오류방지
 	
 	List<Integer> quantity = (List<Integer>) session.getAttribute("quantities");
-    out.println(quantity);
     // 오류 방지
 //     if (quantity == null) {
 //     	quantity = new ArrayList<>(); // 빈 리스트로 초기화
 //     }
 	
-	// 필수 값 체크 (예시)
-	if (shipName == null || date == null || country == null || zipCode == null || address == null) {
-	    out.println("<script>alert('모든 필드를 입력해 주세요.'); history.back();</script>");
-	    return;
-	}
+	if (shipName == null || shipName.trim().isEmpty() || 
+	   	    date == null || date.trim().isEmpty() ||
+	     country == null || country.trim().isEmpty() ||
+	     zipCode == null || zipCode.trim().isEmpty() ||
+	     address == null || address.trim().isEmpty()) {
+		
+		    out.println("<script>alert('모든 필드를 입력해 주세요.'); history.back();</script>");
+		    return;
+		}
 	
 	// DB 저장 또는 주문 처리 로직 추가
 	Order order = new Order();
@@ -99,6 +102,16 @@
         ProductRepository productDAO = new ProductRepository();
         productDAO.update(product);
     }
+	
+	// 장바구니 삭제
+	
+	 if (user != null) {
+	     session.removeAttribute("userCart"); // 로그인된 사용자 장바구니 삭제
+	 }
+	 // 비회원
+	 else {
+	     session.removeAttribute("cart"); // 비회원 장바구니 삭제
+	 }
 %>
 
 </head>

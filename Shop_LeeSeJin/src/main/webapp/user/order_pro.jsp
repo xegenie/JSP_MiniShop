@@ -17,6 +17,6 @@
 	// 비회원 주문 내역 세션에 등록 처리
 	session.setAttribute("orderList", orderList);
 	
-	response.sendRedirect(root + "/user/order.jsp");
+	response.sendRedirect(root + "/user/order.jsp?orderPhone=" + orderPhone);
 
 %>

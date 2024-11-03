@@ -1,3 +1,4 @@
+<%@page import="shop.dto.User"%>
 <%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dto.Product"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -20,6 +21,14 @@
 	String productId = request.getParameter("pNo");
 	ProductRepository productDAO = new ProductRepository();	
 	Product product =  productDAO.getProductById(productId);
+	
+	User user = (User) session.getAttribute("loginUser");
+	String cartId; 
+	if ( user != null ) {
+		cartId = user.getId();
+	} else {
+		cartId = "guest";
+	}
 %>
 </head>
 <body>
@@ -77,13 +86,23 @@
                      <button class="btn btn-outline-primary icon"><i class="fa-solid fa-cart-shopping"></i></button>
                  </a>
 		   		<button type="button" onclick="location.href='cart.jsp'" class="btn btn-primary cartbtn">장바구니</button>
-		   		<button type="button" onclick="location.href='ship.jsp'" class="btn btn-primary orderbtn">주문하기</button>
+		   		<button type="button" onclick="processOrder('${ item.productId }')" class="btn btn-primary orderbtn">주문하기</button>
 	   		</div>
    		</div>
 	</div>
 	
 </div>
 </body>
+
+<script>
+	function processOrder(productId) {
+	    // 확인 창을 먼저 표시합니다.
+	    if (confirm('장바구니로 이동하시겠습니까?')) {
+	        // 사용자가 확인하면 addCart.jsp로 이동하면서 productId를 전달합니다.
+	        location.href = 'cart_pro.jsp?pNo=' + productId;
+	    }
+	}
+</script>
 
 <style>
 

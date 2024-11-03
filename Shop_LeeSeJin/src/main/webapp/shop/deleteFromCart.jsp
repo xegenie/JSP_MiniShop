@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
+	// 선택한 항목만 딜리트
+	
 	User user = (User) session.getAttribute("loginUser");
     String productId = request.getParameter("productId");
 	

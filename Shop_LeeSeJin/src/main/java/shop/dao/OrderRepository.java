@@ -74,11 +74,11 @@ public class OrderRepository extends JDBConnection {
 	 */
 	public List<Product> list(String userId) {
 		List<Product> productList = new ArrayList<Product>();
-		String sql = "SELECT o.order_no, p.name, p.unit_price, io.amount"
-				+ " FROM `order` o "
-				+ "JOIN product_io io ON o.order_no = io.order_no"
-				+ "JOIN product p ON io.product_id = product_id"
-				+ " WHERE userId = ?";
+		String sql = "SELECT o.order_no, p.name, p.unit_price, io.amount "
+		           + "FROM `order` o "
+		           + "JOIN product_io io ON o.order_no = io.order_no "
+		           + "JOIN `product` p ON io.product_id = p.product_id "
+		           + "WHERE o.user_id = ?";
 		
 		try {
 			psmt = con.prepareStatement(sql);
@@ -88,7 +88,7 @@ public class OrderRepository extends JDBConnection {
 			
 			while (rs.next()) { // 결과 집합을 반복
 				Product product = new Product(); // Product 객체 생성
-				product.setProductId(rs.getString("order_no")); // 주문 번호 설정
+				product.setOrderNo(rs.getInt("order_no")); // 주문 번호 설정
 	            product.setName(rs.getString("name"));          // 상품명 설정
 	            product.setUnitPrice(rs.getInt("unit_price"));  // 단가 설정
 	            product.setAmount(rs.getInt("amount"));   // 수량 설정
@@ -99,9 +99,7 @@ public class OrderRepository extends JDBConnection {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("userId로 주문내역 조회 중 실패!");
-			System.out.println(productList);
 		}
-		
 		
 		return productList;
 	}
@@ -118,8 +116,8 @@ public class OrderRepository extends JDBConnection {
 		String sql = "SELECT o.order_no, p.name, p.unit_price, io.amount "
 		           + "FROM `order` o "
 		           + "JOIN product_io io ON o.order_no = io.order_no "
-		           + "JOIN product p ON io.product_id = p.product_id "
-		           + "WHERE o.phone = ? AND o.order_pw = ?"; // 주문 테이블에서 전화번호와 주문 비밀번호를 기준으로 조회
+		           + "JOIN `product` p ON io.product_id = p.product_id "
+		           + "WHERE o.phone = ? AND o.order_pw = ?";
 
 		try {
 			psmt = con.prepareStatement(sql);
@@ -130,7 +128,7 @@ public class OrderRepository extends JDBConnection {
 
 			while (rs.next()) { // 결과 집합을 반복
 				Product product = new Product(); // Product 객체 생성
-				product.setProductId(rs.getString("order_no")); // 주문 번호 설정
+				product.setOrderNo(rs.getInt("order_no")); // 주문 번호 설정
 	            product.setName(rs.getString("name"));          // 상품명 설정
 	            product.setUnitPrice(rs.getInt("unit_price"));  // 단가 설정
 	            product.setAmount(rs.getInt("amount"));   // 수량 설정

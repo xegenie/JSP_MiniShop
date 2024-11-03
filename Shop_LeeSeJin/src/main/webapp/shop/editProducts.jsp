@@ -60,7 +60,7 @@
                         <a href="update.jsp?pNo=${ list.productId }">
                             <button class="update btn btn-outline-primary">수정</button>
                         </a>
-                        <a href="delete_pro.jsp">
+                        <a href="delete_pro.jsp?pNo=${ list.productId }">
                             <button class="delete btn btn-outline-primary">삭제</button>
                         </a>
                     </div>

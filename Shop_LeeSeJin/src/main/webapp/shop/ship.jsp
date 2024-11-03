@@ -18,14 +18,12 @@
 	User user = (User) session.getAttribute("loginUser");
 	String root = request.getContextPath();
 	String cartId = request.getParameter("cartId");
-	List<Integer> quantity = (List<Integer>) session.getAttribute("quantities");
-// 	if (cartId == null) {
-// 	    out.println("<script>alert('다시 시도해 주세요.'); location.href='products.jsp';</script>");
-// 	}
+	if (cartId == null) {
+	    out.println("<script>alert('다시 시도해 주세요.'); location.href='products.jsp';</script>");
+	}
 %>
 </head>
 <body style="height: 1200px;">
-<%= quantity %>
 <jsp:include page="/layout/header.jsp" />
 
 <div class="container p-5 my-5 text-center">

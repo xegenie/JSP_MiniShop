@@ -16,7 +16,6 @@
 </head>
 <body>   
 	<% 
-
 		// root 경로
 		String root = request.getContextPath();
 	
@@ -24,7 +23,7 @@
 		// 주문 내역 목록을 세션에서 가져오기
 		OrderRepository orderDAO = new OrderRepository();
 		UserRepository userDAO = new UserRepository();
-		List<Product> orderList = null;
+		List<Product> orderList = new ArrayList<Product>();
 		
 		// 회원인 경우
 		boolean logined = session.getAttribute("loginUser") != null;
@@ -34,12 +33,12 @@
 		
         // 사용자의 주문 목록을 가져오기
 		if ( logined ) {
-        orderList = orderDAO.list(user.getId());
+        	orderList = orderDAO.list(userId);
+		} else {
+			orderList = (List<Product>) session.getAttribute("orderList");
 		}
 		
-        Order order = new Order();
-        String orderPhone = order.getPhone();
-        
+        String orderPhone = request.getParameter("orderPhone");
 	%>
 	
 	<jsp:include page="/layout/header.jsp" />
@@ -91,13 +90,13 @@
 								<tr>
 									<td>전화번호 :</td>
 									<td>
-										<input type="text" class="form-control" name="phone" placeholder="- 생략하고 숫자만 입력해주세요.">
+										<input type="text" class="form-control" name="phone" placeholder="핸드폰번호를 입력해 주세요.">
 									</td>
 								</tr>
 								<tr>
 									<td>주문 비밀번호 :</td>
 									<td>
-										<input type="password" class="form-control" name="orderPw" placeholder="주문 비밀번호를 입력해주세요.">
+										<input type="password" class="form-control" name="orderPw" placeholder="주문 비밀번호를 입력해 주세요.">
 									</td>
 								</tr>
 							</table>
@@ -126,14 +125,14 @@
 							int sum = 0;
 							for(int i = 0 ; i < orderCount ; i++) {
 								Product product = orderList.get(i);
-								int total = product.getUnitPrice() * product.getQuantity();
+								int total = product.getUnitPrice() * product.getAmount();
 								sum += total;
 						%>
 						<tr>
 							<td><%= product.getOrderNo() %></td>			
 							<td><%= product.getName() %></td>			
 							<td><%= product.getUnitPrice() %></td>			
-							<td><%= product.getQuantity() %></td>			
+							<td><%= product.getAmount() %></td>			
 							<td><%= total %></td>			
 							<td></td>			
 						</tr>
