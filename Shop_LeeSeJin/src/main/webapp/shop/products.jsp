@@ -61,9 +61,16 @@
                         <a href="addCart.jsp?pNo=${ list.productId }">
                             <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping"></i></button>
                         </a>
-                        <a href="product.jsp?pNo=${ list.productId }">
-                            <button class="btn btn-outline-primary">상세 정보</button>
-                        </a>
+                        <c:choose>
+                        	<c:when test="${ list.unitsInStock != 0 }">
+		                        <a href="product.jsp?pNo=${ list.productId }">
+		                            <button class="btn btn-outline-primary">상세 정보</button>
+		                        </a>
+                        	</c:when>
+                        	<c:otherwise>
+		                            <label class="btn btn-outline-secondary" style="background-color: gray; color:white; width: 94px;">품절</label>
+                        	</c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
