@@ -42,7 +42,7 @@
 	<p>쇼핑몰 상품 목록 입니다.</p>
 	<div class="btnlist d-grid gap-2 d-sm-flex justify-content-sm-center">
 		<button type="button" onclick="location.href='add.jsp'" class="btn btn-primary">상품 등록</button>
-		<button type="button" onclick="location.href='update.jsp'" class="btn btn-primary">상품 편집</button>
+		<button type="button" onclick="location.href='editProducts.jsp'" class="btn btn-primary">상품 편집</button>
 		<button type="button" onclick="location.href='cart.jsp'" class="btn btn-primary">장바구니</button>
 	</div>
 </div>
@@ -51,14 +51,14 @@
         <c:forEach var="list" items="${ productList }">
             <div class="col-md-6 col-xl-4 col-xxl-3">
                 <div class="card p-4 d-flex flex-column justify-content-between" style="height: 400px;">
-                    <img alt="" src="<%= root %>${ list.file }">
+                    <img alt="" src="<%= root %>${ list.imgPath }">
                     <p class="fw-bold fs-5">${ list.name }</p>
                     <p>${ list.description }</p>
                     <i class="fa-solid fa-won-sign d-flex justify-content-end">&nbsp;
                         <script>document.write((${list.unitPrice}).toLocaleString('ko-KR'));</script> 원
                     </i>
                     <div class="pt-3 d-flex justify-content-between align-items-center">
-                        <a href="cart.jsp">
+                        <a href="addCart.jsp?pNo=${ list.productId }">
                             <button class="btn btn-outline-primary"><i class="fa-solid fa-cart-shopping"></i></button>
                         </a>
                         <a href="product.jsp?pNo=${ list.productId }">

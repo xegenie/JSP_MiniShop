@@ -1,3 +1,4 @@
+<%@page import="shop.dto.User"%>
 <%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="java.util.List"%>
@@ -5,7 +6,13 @@
     pageEncoding="UTF-8"%>
     
 <%
-	List<Product> cartList = (List<Product>) session.getAttribute("cartList");
+	User user = (User)session.getAttribute("loginUser");
+
+	List<Product> cartList = (List<Product>) session.getAttribute("cart");
+	if ( user != null ) {
+		cartList = (List<Product>) session.getAttribute("userCart");
+	}
+	
 	int cartCount = cartList == null ? 0 : cartList.size();
 	
 	String root = request.getContextPath();

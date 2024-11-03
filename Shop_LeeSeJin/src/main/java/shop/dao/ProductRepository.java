@@ -31,8 +31,12 @@ public class ProductRepository extends JDBConnection {
 				product.setCategory(rs.getString("category"));
 				product.setUnitsInStock(rs.getInt("units_in_stock"));
 				product.setCondition(rs.getString("condition"));
-				product.setFile(rs.getString("file"));
 				product.setQuantity(rs.getInt("quantity"));
+				
+				String filePath = rs.getString("file");
+				
+				product.setFile(filePath);
+				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
 
 				productList.add(product); // 리스트에 상품 추가
 			}
@@ -71,8 +75,13 @@ public class ProductRepository extends JDBConnection {
 	            product.setCategory(rs.getString("category"));
 	            product.setUnitsInStock(rs.getInt("units_in_stock"));
 	            product.setCondition(rs.getString("condition"));
-	            product.setFile(rs.getString("file"));
 	            product.setQuantity(rs.getInt("quantity"));
+	            
+	            String filePath = rs.getString("file");
+				
+				product.setFile(filePath);
+				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
+	            
 	            
 	            productList.add(product); // 리스트에 상품 추가
 	        }
@@ -107,11 +116,57 @@ public class ProductRepository extends JDBConnection {
 	            product.setCategory(rs.getString("category"));
 	            product.setUnitsInStock(rs.getInt("units_in_stock"));
 	            product.setCondition(rs.getString("condition"));
-	            product.setFile(rs.getString("file"));
+	            
+	            String filePath = rs.getString("file");
+				
+				product.setFile(filePath);
+				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
+	            
 	            product.setQuantity(rs.getInt("quantity"));
 	        }
 		} catch (Exception e) {
 			System.out.println("상품 id로 상품조회 시 오류!");
+			e.printStackTrace();
+		}
+		
+		
+		return product;
+	}
+	
+	/**
+	 * 상품 이름으로 조회
+	 * @param Name
+	 * @return
+	 */
+	public Product getProductByName(String name) {
+		Product product = null;
+		String sql = "SELECT * FROM product WHERE name = ?";
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, name);
+			
+			rs = psmt.executeQuery(); // 쿼리 실행
+			if (rs.next()) {
+				product = new Product(); // 상품 객체 생성
+				product.setProductId(rs.getString("product_id"));
+				product.setName(rs.getString("name"));
+				product.setUnitPrice(rs.getInt("unit_price"));
+				product.setDescription(rs.getString("description"));
+				product.setManufacturer(rs.getString("manufacturer"));
+				product.setCategory(rs.getString("category"));
+				product.setUnitsInStock(rs.getInt("units_in_stock"));
+				product.setCondition(rs.getString("condition"));
+				
+				String filePath = rs.getString("file");
+				
+				product.setFile(filePath);
+				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
+				
+				product.setQuantity(rs.getInt("quantity"));
+			}
+		} catch (Exception e) {
+			System.out.println("상품 name으로 상품조회 시 오류!");
 			e.printStackTrace();
 		}
 		

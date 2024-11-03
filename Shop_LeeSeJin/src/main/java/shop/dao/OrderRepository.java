@@ -83,7 +83,9 @@ public class OrderRepository extends JDBConnection {
 		try {
 			psmt = con.prepareStatement(sql);
 			psmt.setString(1, userId);
-
+			
+			rs = psmt.executeQuery();
+			
 			while (rs.next()) { // 결과 집합을 반복
 				Product product = new Product(); // Product 객체 생성
 				product.setProductId(rs.getString("order_no")); // 주문 번호 설정
@@ -95,7 +97,9 @@ public class OrderRepository extends JDBConnection {
 			}
 			rs.close(); // ResultSet 닫기
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("userId로 주문내역 조회 중 실패!");
+			System.out.println(productList);
 		}
 		
 		

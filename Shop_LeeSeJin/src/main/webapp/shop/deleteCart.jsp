@@ -1,16 +1,18 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import="shop.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>장바구니 상품 삭제 처리</title>
-</head>
-<body>
+<%
+    // 로그인된 사용자의 경우
+    User user = (User)session.getAttribute("loginUser");
 
-</body>
-</html>
+    if (user != null) {
+        session.removeAttribute("userCart"); // 로그인된 사용자 장바구니 삭제
+    }
+    // 비회원
+    else {
+        session.removeAttribute("cart"); // 비회원 장바구니 삭제
+    }
+
+    // 사용자가 장바구니가 비워졌다는 알림을 보여주기
+    out.println("<script>alert('장바구니가 비워졌습니다.'); location.href='cart.jsp';</script>");
+%>

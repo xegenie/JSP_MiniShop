@@ -50,17 +50,17 @@
         <c:forEach var="list" items="${ productList }">
             <div class="col-md-6 col-xl-4 col-xxl-3">
                 <div class="card p-4 d-flex flex-column justify-content-between" style="height: 400px;">
-                    <img alt="" src="<%= root %>${ list.file }">
+                    <img alt="" src="<%= root %>${ list.imgPath }">
                     <p class="fw-bold fs-5">${ list.name }</p>
                     <p>${ list.description }</p>
                     <i class="fa-solid fa-won-sign d-flex justify-content-end">&nbsp;
                         <script>document.write((${list.unitPrice}).toLocaleString('ko-KR'));</script> 원
                     </i>
                     <div class="pt-3 d-flex justify-content-end align-items-center column-gap-2">
-                        <a href="cart.jsp">
+                        <a href="update.jsp?pNo=${ list.productId }">
                             <button class="update btn btn-outline-primary">수정</button>
                         </a>
-                        <a href="product.jsp?pNo=${ list.productId }">
+                        <a href="delete_pro.jsp">
                             <button class="delete btn btn-outline-primary">삭제</button>
                         </a>
                     </div>

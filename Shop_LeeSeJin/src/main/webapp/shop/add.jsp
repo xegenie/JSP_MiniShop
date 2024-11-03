@@ -14,7 +14,6 @@
 %>
 	<jsp:include page="/layout/meta.jsp" />
 	<jsp:include page="/layout/link.jsp" />
-	<link rel="stylesheet" href="<%= root %>/static/css/add.css">
 </head>
 <body>
 	<jsp:include page="/layout/header.jsp" />
@@ -105,9 +104,10 @@
 </footer>
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<!-- <script src="../static/js/validation.js"></script> -->			<!-- 상대경로 -->
-	<!-- 절대경로 -->
-<script src="/Shop/static/js/validation.js"></script>
+<!-- 상대경로 -->
+<script src="../static/js/validation.js"></script>
+<!-- 절대경로 -->
+<!-- <script src="/Shop/static/js/validation.js"></script> -->
 	
 	
 </body>
