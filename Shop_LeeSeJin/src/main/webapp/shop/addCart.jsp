@@ -74,11 +74,22 @@
                 cart.add(product);
             }
 
-            session.setAttribute("cart", cart);
+            session.setAttribute("cart", cart);	 //세션에 저장
+        }
+		
+        // 왔던 페이지
+        String referrer = request.getHeader("referer");
+        String redirectUrl = ""; // 기본 페이지 설정
+
+        if (referrer != null) {
+            if (referrer.contains("products.jsp")) {
+                redirectUrl = "products.jsp"; // products.jsp에서 왔을 경우
+            } else if (referrer.contains("product.jsp")) {
+                redirectUrl = "product.jsp?pNo=" + productId; // product.jsp에서 왔을 경우
+            }
         }
 
-        // 알림 메시지 및 리다이렉트
-        out.println("<script>alert('장바구니에 상품이 추가되었습니다.'); location.href='products.jsp';</script>");
+        out.println("<script>alert('장바구니에 상품이 추가되었습니다.'); location.href='" + redirectUrl + "';</script>");
     } catch (Exception e) {
         out.println("<script>alert('문제가 발생했습니다. 다시 시도해주세요.'); location.href='products.jsp';</script>");
     }
