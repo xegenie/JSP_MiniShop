@@ -36,8 +36,6 @@
 	String address = request.getParameter("address"); 
 	String phone = request.getParameter("phone"); 
 	
-	out.println(cartId);
-	out.println(cart);
 %>
 
 </head>
