@@ -10,8 +10,7 @@
 
 <%
     // 파일 업로드 디렉토리 설정
-    String userHome = System.getProperty("user.home");
-    String filePath = userHome + "/git/SHOP_LeeSejin/Shop_LeeSeJin/src/main/webapp/static/img";
+    String filePath = "C:/upload";
     
 	DiskFileUpload upload = new DiskFileUpload();
 	
@@ -80,7 +79,7 @@
 	fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
 	long fileSize = fileItem.getSize();
 	
-	filePath = userHome + "/git/SHOP_LeeSejin/Shop_LeeSeJin/src/main/webapp/static/img/" + fileName;
+	filePath = filePath + "/" + fileName;
 	
 	File file = new File(filePath);
 	fileItem.write(file);		// 파일 업로드

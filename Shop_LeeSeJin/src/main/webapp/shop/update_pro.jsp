@@ -9,8 +9,7 @@
 
 <%
     // 파일 업로드 디렉토리 설정
-    String userHome = System.getProperty("user.home");
-    String filePath = userHome + "/git/SHOP_LeeSejin/Shop_LeeSeJin/src/main/webapp/static/img";
+    String filePath = "C:/upload";
     
     DiskFileUpload upload = new DiskFileUpload();
     upload.setSizeMax(10 * 1000 * 1000);  // 10MB - 파일 최대 크기
@@ -66,7 +65,7 @@
         String existingFileName = existingFile.substring(existingFile.lastIndexOf("/") + 1);
         
         if (!fileName.equals(existingFileName)) {  // 기존 파일 이름과 다를 때만 업로드
-            filePath = userHome + "/git/SHOP_LeeSejin/Shop_LeeSeJin/src/main/webapp/static/img/" + fileName;
+            filePath = filePath + "/" + fileName;
             
             File file = new File(filePath);
             fileItem.write(file);  // 파일 업로드

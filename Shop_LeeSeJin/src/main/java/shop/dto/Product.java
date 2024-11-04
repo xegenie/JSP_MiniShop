@@ -34,17 +34,6 @@ public class Product implements Serializable {
 	private String type;			// 입출고 타입
 	private int amount;				// 입출고량
 	
-	//
-	private String imgPath;
-	
-	public String getImgPath() {
-		return imgPath;
-	}
-
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
-	}
-
 	public Product() {
 		
 	}
@@ -172,7 +161,7 @@ public class Product implements Serializable {
 		return "Product [productId=" + productId + ", name=" + name + ", unitPrice=" + unitPrice + ", description="
 				+ description + ", manufacturer=" + manufacturer + ", category=" + category + ", unitsInStock="
 				+ unitsInStock + ", condition=" + condition + ", file=" + file + ", quantity=" + quantity + ", userId="
-				+ userId + ", orderNo=" + orderNo + ", type=" + type + ", amount=" + amount + ", imgPath=" + imgPath
+				+ userId + ", orderNo=" + orderNo + ", type=" + type + ", amount=" + amount 
 				+ "]";
 	}
 

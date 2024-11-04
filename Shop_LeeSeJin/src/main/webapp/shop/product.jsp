@@ -44,7 +44,7 @@
 	<div class="border row my-4 p-5">
  		<c:set var="item" value="<%= product %>" />
  		<div class="col-md-6">
-     			<img src="<%= root %>${ item.imgPath }" class="img-fluid rounded-start p-5" alt="" style="width: 100%; max-height: 600px; object-fit: cover;">
+     			<img src="<%= root %>/shop/img?id=${ item.productId }" class="img-fluid rounded-start p-5" alt="" style="width: 100%; max-height: 600px; object-fit: cover;">
   		</div>
    		<div class="col-md-6">
       		<div class="m-5">

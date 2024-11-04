@@ -31,12 +31,8 @@ public class ProductRepository extends JDBConnection {
 				product.setCategory(rs.getString("category"));
 				product.setUnitsInStock(rs.getInt("units_in_stock"));
 				product.setCondition(rs.getString("condition"));
+				product.setFile(rs.getString("file"));
 				product.setQuantity(rs.getInt("quantity"));
-				
-				String filePath = rs.getString("file");
-				
-				product.setFile(filePath);
-				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
 
 				productList.add(product); // 리스트에 상품 추가
 			}
@@ -76,11 +72,7 @@ public class ProductRepository extends JDBConnection {
 	            product.setUnitsInStock(rs.getInt("units_in_stock"));
 	            product.setCondition(rs.getString("condition"));
 	            product.setQuantity(rs.getInt("quantity"));
-	            
-	            String filePath = rs.getString("file");
-				
-				product.setFile(filePath);
-				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
+	            product.setFile(rs.getString("file"));
 	            
 	            
 	            productList.add(product); // 리스트에 상품 추가
@@ -116,12 +108,7 @@ public class ProductRepository extends JDBConnection {
 	            product.setCategory(rs.getString("category"));
 	            product.setUnitsInStock(rs.getInt("units_in_stock"));
 	            product.setCondition(rs.getString("condition"));
-	            
-	            String filePath = rs.getString("file");
-				
-				product.setFile(filePath);
-				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
-	            
+				product.setFile(rs.getString("file"));
 	            product.setQuantity(rs.getInt("quantity"));
 	        }
 		} catch (Exception e) {
@@ -157,12 +144,7 @@ public class ProductRepository extends JDBConnection {
 				product.setCategory(rs.getString("category"));
 				product.setUnitsInStock(rs.getInt("units_in_stock"));
 				product.setCondition(rs.getString("condition"));
-				
-				String filePath = rs.getString("file");
-				
-				product.setFile(filePath);
-				product.setImgPath(filePath.substring(filePath.indexOf("/static")));
-				
+				product.setFile(rs.getString("file"));
 				product.setQuantity(rs.getInt("quantity"));
 			}
 		} catch (Exception e) {

@@ -50,7 +50,7 @@
         <c:forEach var="list" items="${ productList }">
             <div class="col-md-6 col-xl-4 col-xxl-3">
                 <div class="card p-4 d-flex flex-column justify-content-between" style="height: 400px;">
-                    <img alt="" src="<%= root %>${ list.imgPath }">
+                    <img alt="" src="<%= root %>/shop/img?id=${ list.productId }">
                     <p class="fw-bold fs-5">${ list.name }</p>
                     <p>${ list.description }</p>
                     <i class="fa-solid fa-won-sign d-flex justify-content-end">&nbsp;
