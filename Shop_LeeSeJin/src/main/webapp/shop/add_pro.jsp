@@ -11,6 +11,11 @@
 <%
     // 파일 업로드 디렉토리 설정
     String filePath = "C:/upload";
+	File uploadDir = new File(filePath);
+	//디렉토리가 없으면 생성
+	if (!uploadDir.exists()) {
+	 uploadDir.mkdirs();
+	}
     
 	DiskFileUpload upload = new DiskFileUpload();
 	

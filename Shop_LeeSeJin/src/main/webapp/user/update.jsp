@@ -97,7 +97,7 @@
 			
 			<!-- 회원 가입 영역 -->
 			<div class="container shop m-auto mb-5">
-				<form action="update_pro.jsp" name="updateForm" method="post" >
+				<form action="update_pro.jsp" name="updateForm" method="post" onsubmit="return checkAccount()">
 				
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">아이디</label>
@@ -282,6 +282,40 @@
 			}
 
 		}
+		
+		function checkAccount() {
+	        const username = document.updateForm.id; // 아이디
+	        const password = document.updateForm.pw; // 비밀번호
+	        const confirmPassword = document.updateForm.pw_confirm; // 비밀번호 확인
+	        const name = document.updateForm.name; // 이름
+
+	        // 아이디: 영문자 또는 한글로 시작
+	        const usernamePattern = /^[a-zA-Z가-힣]/;
+	        if (!check(usernamePattern, username, "아이디는 영문자 또는 한글로 시작해야 합니다.")) {
+	            return false;
+	        }
+
+	        // 비밀번호: 영문자, 숫자, 특수문자 포함, 6글자 이상
+	        const passwordPattern = /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+	        if (!check(passwordPattern, password, "비밀번호는 6글자 이상이어야 하며, 영문자, 숫자, 특수문자를 포함해야 합니다.")) {
+	            return false;
+	        }
+
+	        // 비밀번호 확인
+	        if (password.value !== confirmPassword.value) {
+	            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	            confirmPassword.focus();
+	            return false;
+	        }
+
+	        // 이름: 한글만 입력
+	        const namePattern = /^[가-힣]+$/;
+	        if (!check(namePattern, name, "이름은 한글만 입력해야 합니다.")) {
+	            return false;
+	        }
+
+	        return true;
+			}
 
 	</script>
 </body>

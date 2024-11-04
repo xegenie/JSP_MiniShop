@@ -37,15 +37,6 @@ user.setMail(email);
 user.setPhone(phone);
 user.setAddress(address);
 
-// 비밀번호 확인 검사 추가
-if (!pw.equals(pwConfirm)) {
-%>
-<script>
-    alert('비밀번호가 일치하지 않습니다.');
-    history.back(); // 다시 수정 페이지로 이동
-</script>
-<%
-} else {
     int result = userDAO.update(user);
     
     if (result > 0) {
@@ -58,5 +49,4 @@ if (!pw.equals(pwConfirm)) {
     } else {
         response.sendRedirect("update.jsp");
     }
-}
 %>
