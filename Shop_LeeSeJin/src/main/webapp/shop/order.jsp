@@ -24,10 +24,9 @@
 	    return;
 	}
 	
-	if (cartId.equals("guest")) {
 		List<Product> cart = (List<Product>) session.getAttribute("cart");
-	} else {
-		List<Product> cart = (List<Product>) session.getAttribute("userCart");
+	if (!cartId.equals("guest")) {
+		cart = (List<Product>) session.getAttribute("userCart");
 	}
 	
 	String shipName = request.getParameter("shipName");
@@ -36,6 +35,9 @@
 	String zipCode = request.getParameter("zipCode"); 
 	String address = request.getParameter("address"); 
 	String phone = request.getParameter("phone"); 
+	
+	out.println(cartId);
+	out.println(cart);
 %>
 
 </head>
@@ -93,34 +95,31 @@
 	    <tbody>
 	    	<c:set var="totalPrice" value="0" />
 
-			<c:forEach var="list" items="${cart}">
+<%-- 			<c:forEach var="list" items="${ cart }"> --%>
+<%	
+	int totalPrice = 0;
+	for ( Product item : cart ) {  %>
 			    <tr>
-			        <td>${list.name}</td>
-			        <td>${list.unitPrice}</td>
-			        <td>${list.quantity}</td>
-			        <td>${list.unitPrice * list.quantity}</td>
+			        <td><%= item.getName() %></td>
+			        <td><%= item.getUnitPrice() %></td>
+			        <td><%= item.getQuantity() %></td>
+			        <td><%= item.getUnitPrice() * item.getQuantity() %></td>
 			        <td></td>
 			    </tr>
-			    <c:set var="totalPrice" value="${totalPrice + (list.unitPrice * list.quantity)}" /> <!-- 총 가격 계산 -->
-			</c:forEach>
+			    <c:set var="totalPrice" value="<%= totalPrice = item.getUnitPrice() * item.getQuantity() %>" /> <!-- 총 가격 계산 -->
+<%-- 			</c:forEach> --%>
+<%	}  %>
 	    </tbody>
 	    <tfoot>
-		    <c:choose>
-			    <c:when test="${totalPrice > 0}">
-			        <tr>
-			            <td></td>
-			            <td></td>
-			            <td>총액</td>
-			            <td>${totalPrice}</td> <!-- 총액 표시 -->
-			            <td></td>
-			        </tr>
-			    </c:when>
-			    <c:otherwise>
-			        <tr>
-			            <td colspan="5" style="text-align: center;">등록된 상품이 없습니다.</td> <!-- 상품이 없을 경우 메시지 표시 -->
-			        </tr>
-			    </c:otherwise>
-			</c:choose>
+		    <c:if test="<%= totalPrice > 0 %>">
+		        <tr>
+		            <td></td>
+		            <td></td>
+		            <td>총액</td>
+		            <td><%= totalPrice %></td> <!-- 총액 표시 -->
+		            <td></td>
+		        </tr>
+		    </c:if>
    		</tfoot>
 	</table>
 

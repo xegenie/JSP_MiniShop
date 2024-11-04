@@ -18,7 +18,16 @@
 	    List<Product> userCart = (List<Product>) session.getAttribute("userCart");
 	
 	    if (userCart != null && productId != null) {
-	    	userCart.removeIf(product -> String.valueOf(product.getProductId()).equals(productId));
+	    	userCart.removeIf(product -> product.getProductId().equals(productId) );
+// 	    	for(int i = 0 ; i < userCart.size() ; i++) {
+// 	    		Product item = userCart.get(i);
+// 	    		// 넘어온 상품id 장바구니 항목 삭제
+// 	    		if( item.getProductId().equals(productId) ) {
+// 	    			// userCart.remove(item);	
+// 	    			userCart.remove(i);	
+// 	    		}
+// 	    	}
+	    	
 	    }
     }
     // 장바구니 페이지로 리디렉션

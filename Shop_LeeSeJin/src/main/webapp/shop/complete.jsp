@@ -74,6 +74,7 @@
 	order.setZipCode(zipCode);
 	order.setAddress(address);
 	order.setPhone(phone);
+	order.setTotalPrice(totalPrice);
 	order.setOrderPw(orderPw);
 	order.setUserId(userId);
 	

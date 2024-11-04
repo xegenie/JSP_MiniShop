@@ -81,7 +81,6 @@
     	}
 	}
 	session.setAttribute("totalPrice", totalPrice);
-	System.out.println("Quantities before saving: " + quantities);
 	session.setAttribute("quantities", quantities);
 %>
 	    </tbody>
