@@ -16,7 +16,7 @@ ALTER TABLE product_io DROP FOREIGN KEY order_no_FK;
 DROP TABLE IF EXISTS `user` CASCADE;
 create table `user` (
 	id varchar(10) not null COMMENT '회원 아이디',		-- 회원 아이디
-	password varchar(10) not null COMMENT '비밀번호',	-- 비밀번호
+	password varchar(50) not null COMMENT '비밀번호',	-- 비밀번호
 	name varchar(10) not null COMMENT '이름',		-- 이름
 	gender varchar(5) COMMENT '성별',				-- 성별
 	birth varchar(10) COMMENT '생일',				-- 생일
